@@ -7,8 +7,8 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
+import me.leolin.shortcutbadger.ShortcutBadger
 
-/** FlutterAppIconBadgePlugin */
 class FlutterAppIconBadgePlugin : FlutterPlugin, MethodCallHandler {
   private lateinit var channel: MethodChannel
   private lateinit var context: Context
@@ -21,7 +21,7 @@ class FlutterAppIconBadgePlugin : FlutterPlugin, MethodCallHandler {
 
   override fun onMethodCall(call: MethodCall, result: Result) {
     when (call.method) {
-      "setBadgeCount" -> {
+      "updateBadge", "setBadgeCount" -> {
         val count = call.argument<Int>("count") ?: 0
         val success = setBadgeCount(count)
         if (success) {
@@ -47,14 +47,22 @@ class FlutterAppIconBadgePlugin : FlutterPlugin, MethodCallHandler {
   }
 
   private fun setBadgeCount(count: Int): Boolean {
-    // TODO: Implement badge setting logic here, e.g., using ShortcutBadger lib
-    // ShortcutBadger.applyCount(context, count)
-    return true
+    return try {
+      ShortcutBadger.applyCount(context, count)
+      true
+    } catch (e: Exception) {
+      e.printStackTrace()
+      false
+    }
   }
 
   private fun removeBadge(): Boolean {
-    // TODO: Implement badge removal logic here
-    // ShortcutBadger.removeCount(context)
-    return true
+    return try {
+      ShortcutBadger.removeCount(context)
+      true
+    } catch (e: Exception) {
+      e.printStackTrace()
+      false
+    }
   }
 }
