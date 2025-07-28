@@ -1,15 +1,13 @@
 group 'dev.badver.flutter_app_icon_badge'
 version '1.0-SNAPSHOT'
 
+ext.kotlin_version = '1.7.10'
+
 buildscript {
-
-    ext.kotlin_version = '1.7.10'  // declare here inside buildscript
-
     repositories {
         google()
-        mavenCentral()  // replace deprecated jcenter()
+        mavenCentral()
     }
-
     dependencies {
         classpath 'com.android.tools.build:gradle:7.3.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -26,27 +24,30 @@ allprojects {
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
-
-def kotlin_version = '1.7.10'  // define kotlin_version here
-
 android {
-    compileSdkVersion 30
-
+    compileSdkVersion 33
     namespace 'dev.badver.flutter_app_icon_badge'
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 21
+        targetSdkVersion 33
     }
+
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
+    }
+
+    lintOptions {
+        disable 'InvalidPackage'
     }
 }
 
